@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Heart Disease Prediction Form</h1>
+        <div class="form-container">
+            <form id="predictionForm" onsubmit="handleSubmit(event)">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="male">Gender:</label>
+                        <select class="form-control" id="male" name="male" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="age">Age:</label>
+                        <input type="number" class="form-control" id="age" name="age" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="currentSmoker">Current Smoker:</label>
+                        <select class="form-control" id="currentSmoker" name="currentSmoker" required>
+                            <option value="">Select Option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="cigsPerDay">Cigarettes Per Day:</label>
+                        <input type="number" step="0.01" class="form-control" id="cigsPerDay" name="cigsPerDay" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="BPMeds">BP Medications:</label>
+                        <select class="form-control" id="BPMeds" name="BPMeds" required>
+                            <option value="">Select Option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="prevalentStroke">Prevalent Stroke:</label>
+                        <select class="form-control" id="prevalentStroke" name="prevalentStroke" required>
+                            <option value="">Select Option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="prevalentHyp">Prevalent Hypertension:</label>
+                        <select class="form-control" id="prevalentHyp" name="prevalentHyp" required>
+                            <option value="">Select Option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="diabetes">Diabetes:</label>
+                        <select class="form-control" id="diabetes" name="diabetes" required>
+                            <option value="">Select Option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="totChol">Total Cholesterol:</label>
+                        <input type="number" step="0.01" class="form-control" id="totChol" name="totChol" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="sysBP">Systolic BP:</label>
+                        <input type="number" step="0.01" class="form-control" id="sysBP" name="sysBP" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="diaBP">Diastolic BP:</label>
+                        <input type="number" step="0.01" class="form-control" id="diaBP" name="diaBP" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="BMI">BMI:</label>
+                        <input type="number" step="0.01" class="form-control" id="BMI" name="BMI" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="heartRate">Heart Rate:</label>
+                        <input type="number" step="0.01" class="form-control" id="heartRate" name="heartRate" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="glucose">Glucose Level:</label>
+                        <input type="number" step="0.01" class="form-control" id="glucose" name="glucose" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Predict</button>
+            </form>
+        </div>
+        <div id="resultContainer"></div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(document.getElementById('predictionForm'));
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    const resultDiv = `
+                        <div class="result alert alert-info">
+                            <h2>Prediction Result</h2>
+                            <p><strong>Prediction:</strong> ${result.result}</p>
+                            <p><strong>Risk Probability:</strong> ${(result.probability * 100).toFixed(2)}%</p>
+                        </div>
+                    `;
+                    document.getElementById('resultContainer').innerHTML = resultDiv;
+                } else {
+                    document.getElementById('resultContainer').innerHTML = `<div class="result alert alert-danger">Error: ${result.error}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('resultContainer').innerHTML = `<div class="result alert alert-danger">Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

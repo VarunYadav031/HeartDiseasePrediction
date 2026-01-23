@@ -1,0 +1,14 @@
+{
+  "name": "heart-disease-prediction",
+  "version": "1.0.0",
+  "description": "Heart Disease Prediction ML App",
+  "main": "app.py",
+  "scripts": {
+    "build": "echo 'Build complete'",
+    "dev": "python app.py"
+  },
+  "dependencies": {
+    "python-shell": "^3.0.0"
+  },
+  "devDependencies": {}
+}
